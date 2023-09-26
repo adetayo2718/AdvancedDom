@@ -30,6 +30,31 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+const section1 = document.querySelector('#section--1');
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+
+btnScrollTo.addEventListener('click', function (e) {
+  // selecting cordinates
+  const s1cord = section1.getBoundingClientRect();
+
+  // viewing high and width of the viewport
+  console.log('client height: ' + document.documentElement.clientHeight);
+
+  // the scroll from the top page
+  const scrollY = window.pageYOffset;
+  const scrollX = window.pageXOffset;
+
+  // scroll
+  window.scrollTo({
+    left: s1cord.x + scrollX,
+    top: s1cord.y + scrollY,
+    behavior: 'smooth',
+  });
+
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+
 // Learning
 
 // //SELECTING ELEMENTS
@@ -127,12 +152,12 @@ document.addEventListener('keydown', function (e) {
 // // Data Attribute
 // console.log(logo.dataset.versionDigit);
 
-// CLASSES
+// // CLASSES
 
-logo.classList.add('a');
-logo.classList.remove('a');
-logo.classList.toggle('a');
-logo.classList.contains('a');
+// logo.classList.add('a');
+// logo.classList.remove('a');
+// logo.classList.toggle('a');
+// logo.classList.contains('a');
 
-//Do not use -> this will override all other classes and can only accept one class.
-logo.className = 'Debo';
+// //Do not use -> this will override all other classes and can only accept one class.
+// logo.className = 'Debo';
