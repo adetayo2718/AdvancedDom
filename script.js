@@ -2,11 +2,14 @@
 
 ///////////////////////////////////////
 // Modal window
+const nav = document.querySelector('.nav__links');
 const header = document.querySelector('.header');
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const section1 = document.querySelector('#section--1');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -30,10 +33,7 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-const section1 = document.querySelector('#section--1');
-
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-
+//Button Scroll To
 btnScrollTo.addEventListener('click', function (e) {
   // selecting cordinates
   const s1cord = section1.getBoundingClientRect();
@@ -54,6 +54,25 @@ btnScrollTo.addEventListener('click', function (e) {
 
   section1.scrollIntoView({ behavior: 'smooth' });
 });
+
+// NavBar Scrool
+nav.addEventListener('click', e => {
+  const elSection = e.target.getAttribute('href');
+  console.log(elSection);
+  if (elSection) {
+    e.preventDefault();
+    document.querySelector(elSection).scrollIntoView({ behavior: 'smooth' });
+
+    console.log(document.querySelector(elSection));
+  }
+  // if (e.target.classList.contains('.nav__link')) {
+  //   e.preventDefault();
+  //   const elSection = e.target.getAttribute('href');
+  //   document.querySelector(elSection).scrollIntoView({ behavior: 'smooth' });
+  // }
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////
 
 // Learning
 
@@ -161,3 +180,77 @@ btnScrollTo.addEventListener('click', function (e) {
 
 // //Do not use -> this will override all other classes and can only accept one class.
 // logo.className = 'Debo';
+
+// // EVENT LISTENER
+
+// const h1 = document.querySelector('h1');
+
+// const alertH1 = () => alert('You are readng the header');
+
+// // Event
+// h1.addEventListener('mouseenter', alertH1);
+
+// setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 5000);
+
+// // other ways of listening for events
+
+// h1.onmouseenter = e => alert('You are readng the header');
+
+// // EVENT PROPERGATION
+
+// // selecting the elements
+
+// const link = document.querySelector('.nav__link');
+// const links = document.querySelector('.nav__links');
+// const nav = document.querySelector('.nav');
+
+// // Creting random numbers
+// const randomInt = (min, max) => Math.round(Math.random() * (max - min) + min);
+
+// // Creating random colors
+// const randomCol = () =>
+//   `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
+
+// link.addEventListener(
+//   'click',
+//   e => (e.currentTarget.style.backgroundColor = randomCol())
+// );
+
+// links.addEventListener(
+//   'click',
+//   e => (e.currentTarget.style.backgroundColor = randomCol())
+// );
+
+// document
+//   .querySelector('.nav')
+//   .addEventListener(
+//     'click',
+//     e => (e.currentTarget.style.backgroundColor = randomCol())
+//   );
+
+// // DOM Traversing
+// const h1 = document.querySelector('h1');
+
+// //Going down the DOM tree(selecting Children elements)
+// console.log(h1.querySelectorAll('.highlight'));
+// console.log(h1.childNodes); /*This creates a NodeList*/
+// console.log(h1.children);
+// console.log(h1.firstElementChild);
+// console.log(h1.lastElementChild);
+
+// // Going up the DOM tree (Selecting Parent element)
+// console.log(h1.parentNode);
+// console.log(h1.parentElement);
+
+// console.log(h1.closest('.header'));
+// console.log(h1.closest('h1'));
+
+// //Going sideways (Selecting Sibbling Element)
+
+// console.log(h1.previousElementSibling);
+// console.log(h1.nextElementSibling);
+
+// console.log(h1.previousSibling);
+// console.log(h1.nextSibling.nextSibling);
+
+// console.log(h1.parentElement.childNodes);
