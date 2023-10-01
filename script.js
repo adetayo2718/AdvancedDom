@@ -2,7 +2,7 @@
 
 ///////////////////////////////////////
 // Modal window
-const navLink = document.querySelector('.nav__links');
+// const navLink = document.querySelector('.nav__links');
 const header = document.querySelector('.header');
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
@@ -55,18 +55,17 @@ btnScrollTo.addEventListener('click', function (e) {
   section1.scrollIntoView({ behavior: 'smooth' });
 });
 
+const navLink = document.querySelector('.nav__links');
 // NavBar Scrool
 navLink.addEventListener('click', e => {
-  const elSection = e.target.getAttribute('href');
-  if (elSection) {
-    e.preventDefault();
-    document.querySelector(elSection).scrollIntoView({ behavior: 'smooth' });
+  e.preventDefault();
+
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+
+    if (id == '#') return;
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
-  // if (e.target.classList.contains('.nav__link')) {
-  //   e.preventDefault();
-  //   const elSection = e.target.getAttribute('href');
-  //   document.querySelector(elSection).scrollIntoView({ behavior: 'smooth' });
-  // }
 });
 
 // Operations Tab
@@ -132,6 +131,30 @@ const sectionObserver = new IntersectionObserver(calbackFun, {
   rootMargin: `-${navHeigth}px`,
 });
 sectionObserver.observe(document.querySelector('.header'));
+
+//Implementing Lazy Loading images
+
+const imgs = document.querySelectorAll('img[data-src]');
+
+const imgFunc = function (entries, observe) {
+  const [entry] = entries;
+  console.log(entry);
+  if (!entry.isIntersecting) return;
+  entry.target.src = entry.target.dataset.src;
+  entry.target.addEventListener('load', () => {
+    entry.target.classList.remove('lazy-img');
+  });
+  observe.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(imgFunc, {
+  root: null,
+  threshold: 0,
+});
+
+imgs.forEach(img => {
+  imgObserver.observe(img);
+});
 
 //Using the Bind Method
 // nav.addEventListener('mouseover', mouseHandler.bind(0.5));
@@ -321,28 +344,26 @@ sectionObserver.observe(document.querySelector('.header'));
 
 ////////////////////
 
-// const tabNew = document.querySelector('.operations');
-// const siblingEl = tabNew.querySelectorAll('.operations__tab');
+const tabNew = document.querySelector('.operations');
+const siblingEl = tabNew.querySelectorAll('.operations__tab');
 
-// const handler = (e, bC, c) => {
-//   // console.log(this);
-//   const clicked = e.target.closest('.operations__tab');
-//   if (!clicked) return;
-//   siblingEl.forEach(btn => {
-//     if (btn === clicked) {
-//       console.log(btn, clicked);
-//       btn.style.backgroundColor = bC;
-//       btn.style.color = c;
-//     }
-//   });
-// };
-// tabNew.addEventListener('mouseover', e => {
-//   handler(e, 'black', 'grey');
-// });
+const handler = (e, bC, c) => {
+  const clicked = e.target.closest('.operations__tab');
+  if (!clicked) return;
+  siblingEl.forEach(btn => {
+    if (btn === clicked) {
+      btn.style.backgroundColor = bC;
+      btn.style.color = c;
+    }
+  });
+};
+tabNew.addEventListener('mouseover', e => {
+  handler(e, 'black', 'grey');
+});
 
-// tabNew.addEventListener('mouseout', e => {
-//   handler(e, '', '');
-// });
+tabNew.addEventListener('mouseout', e => {
+  handler(e, '', '');
+});
 
 ///////////////
 
@@ -354,4 +375,26 @@ sectionObserver.observe(document.querySelector('.header'));
 // const scroll = window.addEventListener('scroll', e => {
 //   if (window.scrollY > initialCords.top) nav.classList.add('sticky');
 //   else nav.classList.remove('sticky');
+// });
+
+// // Implementing the revealing the section with the intersection API
+
+// const allSections = document.querySelectorAll('.section');
+
+// const secFunc = function (entries, observe) {
+//   const [entry] = entries;
+//   console.log(entry);
+//   if (!entry.isIntersecting) return;
+//   entry.target.classList.remove('section--hidden');
+//   observe.unobserve(entry.target);
+// };
+
+// const sectionObs = new IntersectionObserver(secFunc, {
+//   root: null,
+//   threshold: 0.15,
+// });
+
+// allSections.forEach(sec => {
+//   sectionObs.observe(sec);
+//   sec.classList.add('section--hidden');
 // });
