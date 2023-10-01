@@ -2,7 +2,7 @@
 
 ///////////////////////////////////////
 // Modal window
-const nav = document.querySelector('.nav__links');
+const navLink = document.querySelector('.nav__links');
 const header = document.querySelector('.header');
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
@@ -56,14 +56,11 @@ btnScrollTo.addEventListener('click', function (e) {
 });
 
 // NavBar Scrool
-nav.addEventListener('click', e => {
+navLink.addEventListener('click', e => {
   const elSection = e.target.getAttribute('href');
-  console.log(elSection);
   if (elSection) {
     e.preventDefault();
     document.querySelector(elSection).scrollIntoView({ behavior: 'smooth' });
-
-    console.log(document.querySelector(elSection));
   }
   // if (e.target.classList.contains('.nav__link')) {
   //   e.preventDefault();
@@ -72,6 +69,73 @@ nav.addEventListener('click', e => {
   // }
 });
 
+// Operations Tab
+const tab = document.querySelectorAll('.operations__tab');
+const tabContainer = document.querySelector('.operations__tab-container');
+const tabContent = document.querySelectorAll('.operations__content');
+
+tabContainer.addEventListener('click', function (e) {
+  const btnClicked = e.target.closest('.operations__tab');
+
+  if (!btnClicked) return;
+
+  // remove classlist
+  tab.forEach(t => t.classList.remove('operations__tab--active'));
+  tabContent.forEach(c => c.classList.remove('operations__content--active'));
+  // add classList to button
+  btnClicked.classList.add('operations__tab--active');
+  document
+    .querySelector(`.operations__content--${btnClicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+
+//Implementing Fade Nav Fadeout
+const nav = document.querySelector('.nav');
+const linkS = document.querySelectorAll('.nav__link');
+
+const mouseHandler = function (e, opacity, color) {
+  const link = e.target;
+  const sibling = link.closest('.nav').querySelectorAll('.nav__link');
+  const logo = nav.querySelector('img');
+  if (e.target.classList.contains('nav__link')) {
+    sibling.forEach(e => {
+      if (e !== link) {
+        e.style.opacity = opacity;
+      } else {
+        e.style.color = color;
+      }
+    });
+    logo.style.opacity = opacity;
+  }
+};
+
+nav.addEventListener('mouseover', e => {
+  mouseHandler(e, 0.5, 'green');
+});
+
+nav.addEventListener('mouseout', e => {
+  mouseHandler(e, 1, '');
+});
+
+//Implementing the Sticky Option
+const navHeigth = document.querySelector('.nav').getBoundingClientRect().height;
+
+const calbackFun = function (entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const sectionObserver = new IntersectionObserver(calbackFun, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeigth}px`,
+});
+sectionObserver.observe(document.querySelector('.header'));
+
+//Using the Bind Method
+// nav.addEventListener('mouseover', mouseHandler.bind(0.5));
+// nav.addEventListener('mouseout', mouseHandler.bind(1));
 //////////////////////////////////////////////////////////////////////////////////////////
 
 // Learning
@@ -231,7 +295,7 @@ nav.addEventListener('click', e => {
 // // DOM Traversing
 // const h1 = document.querySelector('h1');
 
-// //Going down the DOM tree(selecting Children elements)
+//Going down the DOM tree(selecting Children elements)
 // console.log(h1.querySelectorAll('.highlight'));
 // console.log(h1.childNodes); /*This creates a NodeList*/
 // console.log(h1.children);
@@ -254,3 +318,40 @@ nav.addEventListener('click', e => {
 // console.log(h1.nextSibling.nextSibling);
 
 // console.log(h1.parentElement.childNodes);
+
+////////////////////
+
+// const tabNew = document.querySelector('.operations');
+// const siblingEl = tabNew.querySelectorAll('.operations__tab');
+
+// const handler = (e, bC, c) => {
+//   // console.log(this);
+//   const clicked = e.target.closest('.operations__tab');
+//   if (!clicked) return;
+//   siblingEl.forEach(btn => {
+//     if (btn === clicked) {
+//       console.log(btn, clicked);
+//       btn.style.backgroundColor = bC;
+//       btn.style.color = c;
+//     }
+//   });
+// };
+// tabNew.addEventListener('mouseover', e => {
+//   handler(e, 'black', 'grey');
+// });
+
+// tabNew.addEventListener('mouseout', e => {
+//   handler(e, '', '');
+// });
+
+///////////////
+
+// // Implementing the scroll -> This is not a good practice as it will slow down the performance of the page.
+
+// const initialCords = section1.getBoundingClientRect();
+// console.log(initialCords);
+// console.log(window.scrollY, initialCords.top);
+// const scroll = window.addEventListener('scroll', e => {
+//   if (window.scrollY > initialCords.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
