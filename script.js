@@ -138,7 +138,6 @@ const imgs = document.querySelectorAll('img[data-src]');
 
 const imgFunc = function (entries, observe) {
   const [entry] = entries;
-  console.log(entry);
   if (!entry.isIntersecting) return;
   entry.target.src = entry.target.dataset.src;
   entry.target.addEventListener('load', () => {
@@ -398,3 +397,29 @@ tabNew.addEventListener('mouseout', e => {
 //   sectionObs.observe(sec);
 //   sec.classList.add('section--hidden');
 // });
+
+const slides = document.querySelectorAll('.slide');
+const sliderBtn = document.querySelectorAll('.slider__btn');
+const slider = document.querySelector('.slider');
+let curSlide = 0;
+const maxSlide = slides.length;
+
+const sliderFun = function () {
+  slides.forEach((s, i) => {
+    s.style.transform = `translate(${100 * (i - curSlide)}%)`;
+  });
+};
+
+sliderFun();
+
+sliderBtn.forEach(btn => {
+  btn.addEventListener('click', e => {
+    if (e.target.classList.contains('slider__btn--right')) {
+      curSlide === maxSlide - 1 ? (curSlide = 0) : curSlide++;
+      sliderFun();
+    } else if (e.target.classList.contains('slider__btn--left')) {
+      curSlide === 0 ? (curSlide = maxSlide - 1) : curSlide--;
+      sliderFun();
+    }
+  });
+});
