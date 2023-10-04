@@ -410,16 +410,29 @@ const sliderFun = function () {
   });
 };
 
+const rightKeyFunc = function () {
+  curSlide === maxSlide - 1 ? (curSlide = 0) : curSlide++;
+  sliderFun();
+};
+const leftKeyFunc = function () {
+  curSlide === 0 ? (curSlide = maxSlide - 1) : curSlide--;
+  sliderFun();
+};
+
 sliderFun();
 
 sliderBtn.forEach(btn => {
   btn.addEventListener('click', e => {
     if (e.target.classList.contains('slider__btn--right')) {
-      curSlide === maxSlide - 1 ? (curSlide = 0) : curSlide++;
-      sliderFun();
+      rightKeyFunc();
     } else if (e.target.classList.contains('slider__btn--left')) {
-      curSlide === 0 ? (curSlide = maxSlide - 1) : curSlide--;
-      sliderFun();
+      leftKeyFunc();
     }
   });
 });
+
+document.addEventListener('keydown', e => {
+  e.keyCode === 39 ? rightKeyFunc() : e.keyCode === 37 ? leftKeyFunc() : '';
+});
+
+document.addEventListener('DOMContentLoaded', () => {});
